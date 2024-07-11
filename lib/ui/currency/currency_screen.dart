@@ -39,9 +39,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
     }
   }
 
-  String _getTitleLanguage(BuildContext buildContext) {
-    Language language = bloc.state.language!;
-    print("language change");
+  String _getTitleLanguage(Language language) {
     switch (language) {
       case Language.En:
         return "Currency";
@@ -51,6 +49,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         return "Valyuta";
       case Language.UzC:
         return "Валюта";
+      default:
+        return "Currency";
     }
   }
 
@@ -73,9 +73,14 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         backgroundColor: Colors.deepPurpleAccent,
         title: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: Text(
-            _getTitleLanguage(context),
-            style: const TextStyle(fontSize: 18, color: Colors.white),
+          child: BlocBuilder<CurrencyBloc, CurrencyState>(
+            bloc: bloc,
+            builder: (context, state) {
+              return Text(
+                _getTitleLanguage(state.language ?? Language.Uz),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
+              );
+            },
           ),
         ),
         actions: [
@@ -112,8 +117,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                 height: 12,
                               ),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -149,14 +153,12 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                   height: 0.6,
                                   color: Colors.black26),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       language = Language.UzC;
-                                      bloc.add(
-                                          CurrencyLanguageEvent(Language.UzC));
+                                      bloc.add(CurrencyLanguageEvent(Language.UzC));
                                     });
                                   },
                                   child: Row(
@@ -187,8 +189,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                   height: 0.6,
                                   color: Colors.black26),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -224,14 +225,12 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                   height: 0.6,
                                   color: Colors.black26),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       language = Language.En;
-                                      bloc.add(
-                                          CurrencyLanguageEvent(Language.En));
+                                      bloc.add(CurrencyLanguageEvent(Language.En));
                                     });
                                   },
                                   child: Row(
