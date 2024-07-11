@@ -1,0 +1,1 @@
+enum Language { Ru, En, Uz, UzC }
