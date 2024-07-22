@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_valuta_app_dio/data/sourse/remote/response/currency_response.dart';
 import 'package:flutter_valuta_app_dio/presenter/currency_bloc/currency_bloc.dart';
+import 'package:flutter_valuta_app_dio/util/formater/currency_input_formater.dart';
+import 'package:intl/intl.dart';
 
 import '../../util/Language.dart';
 
@@ -16,31 +18,30 @@ class Itemcurrency extends StatefulWidget {
 }
 
 class _ItemcurrencyState extends State<Itemcurrency> {
-  void bottomSheetDialog(
-      {required BuildContext context,
-      required String code,
-      required String ccyName,
-      required String from,
-      required double rate}) {
+  void bottomSheetDialog({required BuildContext context, required String code, required String ccyName, required String from, required double rate}) {
     var isUzsToCcy = false;
 
     var uzsController = TextEditingController();
     var ccyController = TextEditingController();
 
+    String formatNumber(double number) {
+      final NumberFormat numberFormat = NumberFormat('#,###,###', 'en_US');
+      return numberFormat.format(number);
+    }
     void _convertListener() {
       if (isUzsToCcy) {
         if (uzsController.text.isNotEmpty) {
-          double uzs = double.tryParse(uzsController.text) ?? 1;
+          double uzs = double.tryParse(uzsController.text.replaceAll(",", "")) ?? 1;
           double ccy = uzs / rate;
-          ccyController.text = ccy.toStringAsFixed(2);
+          ccyController.text = formatNumber(ccy);
         } else {
           ccyController.clear();
         }
       } else {
         if (uzsController.text.isNotEmpty) {
-          double ccy = double.tryParse(uzsController.text) ?? 1;
+          double ccy = double.tryParse(uzsController.text.replaceAll(",", "")) ?? 1;
           double uzs = ccy * rate;
-          ccyController.text = uzs.toStringAsFixed(2);
+          ccyController.text = formatNumber(uzs);
         } else {
           ccyController.clear();
         }
@@ -52,8 +53,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder:
-              (BuildContext context, void Function(void Function()) setState) {
+          builder: (BuildContext context, void Function(void Function()) setState) {
             return Padding(
               padding: MediaQuery.of(context).viewInsets,
               child: Container(
@@ -68,14 +68,14 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                   children: [
                     const SizedBox(height: 8.0),
                     Container(
-                      width: 56,
-                      height: 10,
+                      width: 50,
+                      height: 8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                         color: Colors.black12,
                       ),
                     ),
-                    const SizedBox(height: 24.0),
+                    const SizedBox(height: 12.0),
                     Center(
                       child: Text(
                         from,
@@ -86,6 +86,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 12.0),
                     Column(
                       children: [
                         const SizedBox(height: 4),
@@ -93,7 +94,10 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                           onChanged: (text) {
                             _convertListener();
                           },
-                          maxLength: 25,
+                          maxLength: 21,
+                          inputFormatters: [
+                            CurrencyInputFormatter(),
+                          ],
                           keyboardType: TextInputType.number,
                           controller: uzsController,
                           decoration: InputDecoration(
@@ -131,7 +135,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                           height: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.deepPurple,
+                            color: Colors.lightBlue,
                           ),
                           child: const Icon(
                             Icons.swap_vert,
@@ -151,8 +155,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
   }
 
   String _getLanguage() {
-    Language language =
-        widget.buildContext.read<CurrencyBloc>().state.language!;
+    Language language = widget.buildContext.read<CurrencyBloc>().state.language!;
     switch (language) {
       case Language.En:
         return widget.data.ccyNmEn ?? '';
@@ -206,18 +209,12 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                           children: [
                             Text(
                               _getLanguage(),
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                              style: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(width: 8),
                             Text(
                               widget.data.diff ?? '',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      (widget.data.diff ?? "").startsWith('-')
-                                          ? Colors.red
-                                          : Colors.green),
+                              style: TextStyle(fontSize: 14, color: (widget.data.diff ?? "").startsWith('-') ? Colors.red : Colors.green),
                             ),
                           ],
                         ),
@@ -227,10 +224,10 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                               '1 ${widget.data.ccy} => ${widget.data.rate} UZS\t|\t',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
-                            const Icon(
-                              Icons.calendar_today_sharp,
-                              color: Colors.blueAccent,
-                              size: 18,
+                            Image.asset(
+                              "assets/calendar.png",
+                              height: 20,
+                              width: 20,
                             ),
                             Text(
                               "\t ${widget.data.date}",
@@ -248,9 +245,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                           isItemOpen = !isItemOpen;
                         });
                       },
-                      icon: Icon((isItemOpen)
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down),
+                      icon: Icon((isItemOpen) ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
                     ),
                   )
                 ],
@@ -260,8 +255,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 8.0, right: 12, top: 2),
+                    padding: const EdgeInsets.only(bottom: 8.0, right: 12, top: 2),
                     child: GestureDetector(
                       onTap: () {
                         bottomSheetDialog(
@@ -269,16 +263,12 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                             code: widget.data.code ?? "0",
                             ccyName: widget.data.ccy ?? "0",
                             from: _getLanguage(),
-                            rate:
-                                double.tryParse(widget.data.rate ?? "1") ?? 1);
+                            rate: double.tryParse(widget.data.rate ?? "1") ?? 1);
                       },
                       child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.deepPurpleAccent),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.lightBlue),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -290,8 +280,7 @@ class _ItemcurrencyState extends State<Itemcurrency> {
                               const SizedBox(width: 4),
                               Text(
                                 _getCalculateLanguage(),
-                                style: const TextStyle(
-                                    fontSize: 13, color: Colors.white),
+                                style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
                               )
                             ],
                           ),

@@ -39,6 +39,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
     }
   }
 
+
   String _getTitleLanguage(Language language) {
     switch (language) {
       case Language.En:
@@ -70,7 +71,8 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(16), bottomLeft: Radius.circular(16))),
+        backgroundColor: Colors.lightBlue,
         title: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: BlocBuilder<CurrencyBloc, CurrencyState>(
@@ -78,7 +80,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
             builder: (context, state) {
               return Text(
                 _getTitleLanguage(state.language ?? Language.Uz),
-                style: const TextStyle(fontSize: 18, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white,fontWeight: FontWeight.bold),
               );
             },
           ),
@@ -109,9 +111,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                               Container(
                                 height: 10,
                                 width: 56,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: Colors.black12),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.black12),
                               ),
                               const SizedBox(
                                 height: 12,
@@ -130,28 +130,23 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                       const SizedBox(width: 16),
                                       (language == Language.Uz)
                                           ? const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.deepPurpleAccent,
-                                      )
+                                              Icons.check_circle_outline,
+                                              color: Colors.lightBlue,
+                                            )
                                           : const Icon(
-                                        Icons.radio_button_unchecked,
-                                        color: Colors.black,
-                                      ),
+                                              Icons.radio_button_unchecked,
+                                              color: Colors.black,
+                                            ),
                                       const SizedBox(width: 12),
-                                      Text("O'zbekcha",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: (language == Language.Uz)
-                                                  ? Colors.deepPurpleAccent
-                                                  : Colors.black))
+                                      Expanded(
+                                        child: Text("O'zbekcha",
+                                            style: TextStyle(fontSize: 16, color: (language == Language.Uz) ? Colors.lightBlue : Colors.black)),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              Container(
-                                  width: double.infinity,
-                                  height: 0.6,
-                                  color: Colors.black26),
+                              Container(width: double.infinity, height: 0.6, color: Colors.black26),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
@@ -166,28 +161,23 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                       const SizedBox(width: 16),
                                       (language == Language.UzC)
                                           ? const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.deepPurpleAccent,
-                                      )
+                                              Icons.check_circle_outline,
+                                              color: Colors.lightBlue,
+                                            )
                                           : const Icon(
-                                        Icons.radio_button_unchecked,
-                                        color: Colors.black,
-                                      ),
+                                              Icons.radio_button_unchecked,
+                                              color: Colors.black,
+                                            ),
                                       const SizedBox(width: 12),
-                                      Text("Узбекча",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: (language == Language.UzC)
-                                                  ? Colors.deepPurpleAccent
-                                                  : Colors.black))
+                                      Expanded(
+                                        child: Text("Узбекча",
+                                            style: TextStyle(fontSize: 16, color: (language == Language.UzC) ? Colors.lightBlue : Colors.black)),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              Container(
-                                  width: double.infinity,
-                                  height: 0.6,
-                                  color: Colors.black26),
+                              Container(width: double.infinity, height: 0.6, color: Colors.black26),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
@@ -202,28 +192,23 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                       const SizedBox(width: 16),
                                       (language == Language.Ru)
                                           ? const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.deepPurpleAccent,
-                                      )
+                                              Icons.check_circle_outline,
+                                              color: Colors.lightBlue,
+                                            )
                                           : const Icon(
-                                        Icons.radio_button_unchecked,
-                                        color: Colors.black,
-                                      ),
+                                              Icons.radio_button_unchecked,
+                                              color: Colors.black,
+                                            ),
                                       const SizedBox(width: 12),
-                                      Text("Русский",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: (language == Language.Ru)
-                                                  ? Colors.deepPurpleAccent
-                                                  : Colors.black))
+                                      Expanded(
+                                        child: Text("Русский",
+                                            style: TextStyle(fontSize: 16, color: (language == Language.Ru) ? Colors.lightBlue : Colors.black)),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              Container(
-                                  width: double.infinity,
-                                  height: 0.6,
-                                  color: Colors.black26),
+                              Container(width: double.infinity, height: 0.6, color: Colors.black26),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: GestureDetector(
@@ -238,28 +223,23 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                                       const SizedBox(width: 16),
                                       (language == Language.En)
                                           ? const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.deepPurpleAccent,
-                                      )
+                                              Icons.check_circle_outline,
+                                              color: Colors.lightBlue,
+                                            )
                                           : const Icon(
-                                        Icons.radio_button_unchecked,
-                                        color: Colors.black,
-                                      ),
+                                              Icons.radio_button_unchecked,
+                                              color: Colors.black,
+                                            ),
                                       const SizedBox(width: 12),
-                                      Text("English",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: (language == Language.En)
-                                                  ? Colors.deepPurpleAccent
-                                                  : Colors.black))
+                                      Expanded(
+                                        child: Text("English",
+                                            style: TextStyle(fontSize: 16, color: (language == Language.En) ? Colors.lightBlue : Colors.black)),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              Container(
-                                  width: double.infinity,
-                                  height: 0.6,
-                                  color: Colors.black26),
+                              Container(width: double.infinity, height: 0.6, color: Colors.black26),
                             ],
                           ),
                         ),
@@ -284,8 +264,7 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
         child: BlocConsumer<CurrencyBloc, CurrencyState>(
           listener: (context, state) {
             if (state.status == Status.fail) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage ?? '')));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage ?? '')));
             }
           },
           builder: (context, state) {
@@ -295,26 +274,33 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
               if (state.status == Status.fail) {
                 return const Placeholder();
               } else {
-                return ListView.builder(
-                  itemCount: state.data?.length,
-                  itemBuilder: (context, index) {
-                    return Itemcurrency(
-                      buildContext: context,
-                      data: state.data?[index] ??
-                          CurrencyModel(
-                              id: -1,
-                              code: "",
-                              ccy: "",
-                              ccyNmRu: "",
-                              ccyNmUz: "",
-                              ccyNmUzc: "",
-                              ccyNmEn: "",
-                              nominal: "nominal",
-                              rate: "rate",
-                              diff: "diff",
-                              date: "date"),
-                    );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    bloc.add(GetCurrencyEvent());
+                    await Future.delayed(const Duration(milliseconds: 200));
                   },
+                  child: ListView.builder(
+                    itemCount: state.data?.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Itemcurrency(
+                        buildContext: context,
+                        data: state.data?[index] ??
+                            CurrencyModel(
+                                id: -1,
+                                code: "",
+                                ccy: "",
+                                ccyNmRu: "",
+                                ccyNmUz: "",
+                                ccyNmUzc: "",
+                                ccyNmEn: "",
+                                nominal: "nominal",
+                                rate: "rate",
+                                diff: "diff",
+                                date: "date"),
+                      );
+                    },
+                  ),
                 );
               }
             }
